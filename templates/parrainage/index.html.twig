@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ parent() }}Parrainer un animal{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/parrainage.css') }}">
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/parrainage.js') }}"></script>
+{% endblock %}
+{% block body %}
+    <div class="container mt-5">
+        <h1 class="text-center text-success display-3 mb-4">🐾 Parrainer un animal</h1>
+        <div class="alert alert-success text-center">
+            Soutenez nos pensionnaires en devenant parrain ou marraine ! Votre aide contribue à leur
+            bien-être et à la
+            préservation des espèces.
+        </div>
+        <div class="row">
+            <!-- Lama -->
+            <div class="col-md-4 mb-4">
+                <div class="card shadow">
+                    <img src="{{ asset('picture/serge_lama.png') }}" class="card-img-top" alt="Lama">
+                    <div class="card-body">
+                        <h5 class="card-title">🦙 Lama</h5>
+                        <p class="card-text">Aidez à nourrir et soigner Serge le lama. Recevez des
+                            nouvelles et un
+                            certificat de parrainage !</p>
+                        <a href="{{ path('app_parrainage_add', {'animal': 'lama'}) }}"
+                           class="btn btn-primary btn-parrainer">PARRAINER</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Zèbre -->
+            <div class="col-md-4 mb-4">
+                <div class="card shadow">
+                    <img src="{{ asset('picture/Zebre.png') }}" class="card-img-top" alt="Zèbre">
+                    <div class="card-body">
+                        <h5 class="card-title">🦓 Zèbre</h5>
+                        <p class="card-text">Participez au bien-être de Zoé la zébrette. Un geste pour
+                            la biodiversité
+                            africaine !</p>
+                        <a href="{{ path('app_parrainage_add', {'animal': 'zebre'}) }}"
+                           class="btn btn-primary btn-parrainer">PARRAINER</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Lion -->
+            <div class="col-md-4 mb-4">
+                <div class="card shadow">
+                    <img src="{{ asset('picture/lion.png') }}" class="card-img-top" alt="Lion">
+                    <div class="card-body">
+                        <h5 class="card-title">🦁 Lion</h5>
+                        <p class="card-text">Soutenez Simba le lion dans sa vie de roi. Recevez un
+                            certificat et des
+                            photos exclusives !</p>
+                        <a href="{{ path('app_parrainage_add', {'animal': 'lion'}) }}"
+                           class="btn btn-primary btn-parrainer">PARRAINER</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Girafe -->
+            <div class="col-md-4 mb-4">
+                <div class="card shadow">
+                    <img src="{{ asset('picture/girafe.png') }}" class="card-img-top" alt="Girafe">
+                    <div class="card-body">
+                        <h5 class="card-title">🦒 Girafe</h5>
+                        <p class="card-text">Aidez à prendre soin de Gisèle la girafe. Recevez des
+                            nouvelles
+                            régulières !</p>
+                        <a href="{{ path('app_parrainage_add', {'animal': 'girafe'}) }}"
+                           class="btn btn-primary btn-parrainer">PARRAINER</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Éléphant -->
+            <div class="col-md-4 mb-4">
+                <div class="card shadow">
+                    <img src="{{ asset('picture/elephant.png') }}" class="card-img-top" alt="Éléphant">
+                    <div class="card-body">
+                        <h5 class="card-title">🐘 Éléphant</h5>
+                        <p class="card-text">Contribuez à la protection de Eliot l’éléphant. Un
+                            engagement pour la
+                            nature !</p>
+                        <a href="{{ path('app_parrainage_add', {'animal': 'elephant'}) }}"
+                           class="btn btn-primary btn-parrainer">PARRAINER</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

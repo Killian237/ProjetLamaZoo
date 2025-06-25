@@ -1,5 +1,122 @@
 {% extends 'base.html.twig' %}
- {% block title %}{{parent()}}Accueil{% endblock %}
- {% block body %}
-    <h1 class="text-center text-primary"> LamaZoo </h1>
- {% endblock %}
+{% block title %}{{ parent() }}Accueil{% endblock %}
+{% block body %}
+    <h1 class="text-center text-primary display-2 fw-bold mb-3">LamaZoo 🦙🌿</h1>
+    <div class="container">
+        <div class="row justify-content-center mb-4">
+            <div class="col-10">
+                <div class="alert alert-info text-center fs-5 border-2 border-primary shadow-sm">
+                    🏞️ <span class="fw-bold text-primary">LamaZoo</span> vous ouvre ses portes pour une aventure
+                    inoubliable au cœur de la biodiversité !<br>
+                    <span class="text-success fw-bold">🌳 Un écrin de nature :</span> Promenez-vous dans un parc paysager
+                    où chaque allée vous transporte dans un nouvel univers animalier, des savanes africaines aux
+                    montagnes andines.<br>
+                    <span class="text-warning fw-bold">🦁 Rencontrez nos pensionnaires :</span> Observez de près des
+                    espèces fascinantes, apprenez leurs histoires et découvrez leurs comportements grâce à nos
+                    animations pédagogiques.<br>
+                    <span class="text-info fw-bold">👨‍👩‍👧‍👦 Pour toute la famille :</span> Aires de jeux, espaces de
+                    pique-nique, ateliers ludiques et points de restauration vous attendent pour une journée conviviale.<br>
+                    <span class="text-danger fw-bold">🌍 Engagé pour la planète :</span> LamaZoo participe à la
+                    préservation des espèces menacées et sensibilise petits et grands à la protection de
+                    l’environnement.<br>
+                    <span class="fw-bold text-primary">Vivez une expérience unique, riche en découvertes, en émotions et en souvenirs !</span>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-4 align-items-center bg-light rounded shadow-sm p-3">
+            <div class="col-3 col-md-2 text-center">
+                <img src="{{ asset('picture/serge_lama.png') }}"
+                     class="img-fluid rounded border border-2 border-primary" style="max-width: 100px;" alt="Lama">
+            </div>
+            <div class="col-9 col-md-10">
+                <h3 class="fw-bold text-success mb-1">🦙 Lama</h3>
+                <p class="mb-0 text-secondary">
+                    Le lama est un animal domestique originaire des hauts plateaux andins d’Amérique du Sud,
+                    principalement du Pérou, de la Bolivie et du Chili. Apprécié pour sa laine douce et chaude, il est
+                    également utilisé comme animal de bât depuis des siècles par les populations locales. Les lamas
+                    vivent en troupeaux et possèdent une hiérarchie sociale bien établie. Très sociables, ils
+                    communiquent entre eux par des postures, des sons et parfois des crachats, utilisés pour se défendre
+                    ou affirmer leur dominance. Leur alimentation se compose principalement d’herbes et de plantes de
+                    montagne. Grâce à leur adaptation à l’altitude, ils supportent des conditions climatiques extrêmes
+                    et jouent un rôle important dans la culture andine.
+                </p>
+            </div>
+        </div>
+        <div class="row mb-4 align-items-center bg-white rounded shadow-sm p-3">
+            <div class="col-3 col-md-2 text-center">
+                <img src="{{ asset('picture/Zebre.png') }}" class="img-fluid rounded border border-2 border-dark"
+                     style="max-width: 100px;" alt="Zèbre">
+            </div>
+            <div class="col-9 col-md-10">
+                <h3 class="fw-bold text-dark mb-1">🦓 Zèbre</h3>
+                <p class="mb-0 text-secondary">
+                    Le zèbre est un équidé africain célèbre pour ses rayures noires et blanches, uniques à chaque
+                    individu, qui servent à le camoufler dans les hautes herbes et à perturber la vision des prédateurs.
+                    Il vit principalement dans les savanes, les prairies et les zones boisées d’Afrique subsaharienne.
+                    Les zèbres sont des animaux grégaires qui se déplacent en grands troupeaux pour se protéger des
+                    lions, hyènes et autres prédateurs. Leur régime alimentaire est composé d’herbes, de feuilles et
+                    parfois d’écorces. Les zèbres jouent un rôle écologique important en maintenant la diversité des
+                    prairies et en facilitant la croissance de nouvelles plantes grâce à leur pâturage.
+                </p>
+            </div>
+        </div>
+        <div class="row mb-4 align-items-center bg-light rounded shadow-sm p-3">
+            <div class="col-3 col-md-2 text-center">
+                <img src="{{ asset('picture/lion.png') }}" class="img-fluid rounded border border-2 border-warning"
+                     style="max-width: 100px;" alt="Lion">
+            </div>
+            <div class="col-9 col-md-10">
+                <h3 class="fw-bold text-warning mb-1">🦁 Lion</h3>
+                <p class="mb-0 text-secondary">
+                    Le lion, surnommé le roi des animaux, est un grand félin qui vit principalement dans les savanes et
+                    prairies d’Afrique. Les lions sont les seuls félins à vivre en groupes sociaux appelés troupes,
+                    composés de femelles apparentées, de leurs petits et de quelques mâles adultes. Les mâles se
+                    distinguent par leur crinière imposante, symbole de force et de maturité. Les lions sont des
+                    prédateurs au sommet de la chaîne alimentaire, jouant un rôle crucial dans la régulation des
+                    populations d’herbivores. Leur rugissement puissant peut s’entendre à plusieurs kilomètres et sert à
+                    marquer leur territoire. Malgré leur statut emblématique, les lions sont menacés par la perte
+                    d’habitat et le braconnage.
+                </p>
+            </div>
+        </div>
+        <div class="row mb-4 align-items-center bg-white rounded shadow-sm p-3">
+            <div class="col-3 col-md-2 text-center">
+                <img src="{{ asset('picture/girafe.png') }}" class="img-fluid rounded border border-2 border-warning"
+                     style="max-width: 100px;" alt="Girafe">
+            </div>
+            <div class="col-9 col-md-10">
+                <h3 class="fw-bold text-warning mb-1">🦒 Girafe</h3>
+                <p class="mb-0 text-secondary">
+                    La girafe est le plus grand animal terrestre, pouvant atteindre jusqu’à 6 mètres de hauteur grâce à
+                    son long cou et ses longues pattes. Elle vit dans les savanes et les forêts claires d’Afrique, où
+                    elle se nourrit principalement de feuilles d’acacia, qu’elle atteint facilement là où d’autres
+                    animaux ne peuvent pas. Les girafes vivent en groupes lâches et sont réputées pour leur démarche
+                    gracieuse et leur capacité à courir à plus de 50 km/h sur de courtes distances. Leur langue
+                    préhensile, mesurant jusqu’à 45 cm, leur permet de saisir les feuilles épineuses sans se blesser.
+                    Les girafes jouent un rôle écologique en taillant les arbres et en favorisant la croissance de
+                    nouvelles pousses.
+                </p>
+            </div>
+        </div>
+        <div class="row mb-4 align-items-center bg-light rounded shadow-sm p-3">
+            <div class="col-3 col-md-2 text-center">
+                <img src="{{ asset('picture/elephant.png') }}"
+                     class="img-fluid rounded border border-2 border-secondary" style="max-width: 100px;"
+                     alt="Éléphant">
+            </div>
+            <div class="col-9 col-md-10">
+                <h3 class="fw-bold text-secondary mb-1">🐘 Éléphant</h3>
+                <p class="mb-0 text-secondary">
+                    L’éléphant est le plus grand mammifère terrestre, reconnaissable à sa trompe puissante, ses grandes
+                    oreilles et ses défenses en ivoire. Il existe deux espèces principales : l’éléphant d’Afrique et
+                    l’éléphant d’Asie. Les éléphants vivent en groupes familiaux dirigés par une femelle expérimentée,
+                    la matriarche. Leur trompe leur sert à boire, à se nourrir, à communiquer et à manipuler des objets.
+                    Dotés d’une mémoire exceptionnelle, ils parcourent de longues distances à la recherche d’eau et de
+                    nourriture, jouant un rôle essentiel dans la dispersion des graines et la création de points d’eau
+                    dans leur habitat. Les éléphants sont également connus pour leur intelligence, leur empathie et
+                    leurs rituels sociaux complexes.
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

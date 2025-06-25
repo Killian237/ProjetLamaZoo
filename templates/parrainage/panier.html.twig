@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ parent() }}Mon panier de parrainage{% endblock %}
+{% block body %}
+    <div class="container mt-5">
+        <h1 class="text-center text-primary mb-4">🛒 Mon panier de parrainage</h1>
+        {% if cart|length == 0 %}
+            <div class="alert alert-info text-center">Votre panier est vide.</div>
+            <div class="text-center mt-3">
+                <a href="{{ path('app_parrainage') }}" class="btn btn-outline-primary">Retour au parrainage</a>
+            </div>
+        {% else %}
+            <form method="post" action="#">
+                <div class="row">
+                    {% for animal in cart %}
+                        <div class="col-md-6 mb-3">
+                            <div class="card shadow">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ animals[animal].emoji }} {{ animals[animal].nom }}</h5>
+                                    <label for="montant_{{ animal }}" class="form-label">Montant à donner (€)</label>
+                                    <input type="number" min="1" step="1" class="form-control"
+                                           name="montant[{{ animal }}]" id="montant_{{ animal }}" required>
+                                    <a href="{{ path('app_parrainage_panier_retirer', {'animal': animal}) }}"
+                                       class="btn btn-outline-danger btn-sm mt-2">Retirer</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="text-center mt-4">
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <button type="submit" class="btn btn-success btn-lg">Valider mon parrainage</button>
+                    {% else %}
+                        <a href="{{ path('app_login') }}" class="btn btn-success btn-lg">
+                            Se connecter pour valider
+                        </a>
+                    {% endif %}
+                </div>
+            </form>
+            <div class="text-center mt-3">
+                <a href="{{ path('app_parrainage') }}" class="btn btn-outline-primary">Retour au parrainage</a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

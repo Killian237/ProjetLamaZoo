@@ -30,6 +30,12 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('app_contact') }}">Contact</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_parrainage') }}">Parrainage</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_parrainage_panier') }}">Voir mes parrainage</a>
+                </li>
             </ul>
             <ul class="navbar-nav ms-auto">
                 {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
