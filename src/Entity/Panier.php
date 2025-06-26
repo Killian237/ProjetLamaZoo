@@ -19,7 +19,7 @@ class Panier
     private ?\DateTime $dateCreation = null;
 
     #[ORM\Column]
-    private ?bool $regler = null;
+    private ?bool $regler = False;
 
     #[ORM\ManyToOne(inversedBy: 'paniers')]
     private ?Personnel $personnel = null;

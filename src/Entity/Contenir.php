@@ -19,6 +19,9 @@ class Contenir
     #[ORM\ManyToOne(inversedBy: 'contenirs')]
     private ?Ateliers $ateliers = null;
 
+    #[ORM\Column]
+    private ?\DateTime $heureChoisit = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -44,6 +47,18 @@ class Contenir
     public function setAteliers(?Ateliers $ateliers): static
     {
         $this->ateliers = $ateliers;
+
+        return $this;
+    }
+
+    public function getHeureChoisit(): ?\DateTime
+    {
+        return $this->heureChoisit;
+    }
+
+    public function setHeureChoisit(\DateTime $heureChoisit): static
+    {
+        $this->heureChoisit = $heureChoisit;
 
         return $this;
     }

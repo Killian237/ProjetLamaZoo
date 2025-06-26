@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}Ateliers{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1 class="text-center text-primary mb-4">🎨 Nos ateliers</h1>
+        <div class="row">
+            {% for atelier in ateliers %}
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5>{{ atelier.nom }}</h5>
+                        <p>{{ atelier.description|nl2br }}</p>
+                        <p>
+                            Créneau :
+                            {{ atelier.HeureDebut|date('H:i') }} - {{ atelier.HeureFin|date('H:i') }}
+                        </p>
+                        <form method="post" action="{{ path('app_ateliers_add', {'atelier': atelier.id}) }}">
+                            <div class="mb-2">
+                                <label for="heure_{{ atelier.id }}">Choisir l'heure :</label>
+                                <select name="heure" id="heure_{{ atelier.id }}" class="form-select" required>
+                                    {% set debut = atelier.HeureDebut|date('H') %}
+                                    {% set fin = atelier.HeureFin|date('H') %}
+                                    {% for h in debut..(fin-1) %}
+                                        <option value="{{ h }}:00">{{ '%02d'|format(h) }}:00</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Participer</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

@@ -5,59 +5,125 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
+use App\Repository\AnimauxRepository;
+use App\Entity\Panier;
+use App\Entity\Mettre;
+use App\Repository\PanierRepository;
+use Doctrine\ORM\EntityManagerInterface;
 
 class ParrainageController extends AbstractController
 {
     #[Route('/parrainage', name: 'app_parrainage')]
-    public function index(): Response
+    public function index(AnimauxRepository $animauxRepository): Response
     {
-        return $this->render('parrainage/index.html.twig');
+        $animaux = $animauxRepository->findAllAnimaux();
+        return $this->render('parrainage/index.html.twig', [
+            'animaux' => $animaux,
+        ]);
     }
 
     #[Route('/parrainage/add/{animal}', name: 'app_parrainage_add')]
-    public function addToCart(string $animal, Request $request): Response
+    public function addToCart(
+        int                    $animal,
+        AnimauxRepository      $animauxRepository,
+        PanierRepository       $panierRepository,
+        EntityManagerInterface $em
+    ): Response
     {
-        $session = $request->getSession();
-        $cart = $session->get('parrainage_cart', []);
-        if (!in_array($animal, $cart)) {
-            $cart[] = $animal;
+        if (!$this->isGranted('ROLE_USER')) {
+            return $this->redirectToRoute('app_login');
         }
-        $session->set('parrainage_cart', $cart);
+        $user = $this->getUser();
+        $animalEntity = $animauxRepository->find($animal);
+
+        $panier = $panierRepository->findOneBy(['personnel' => $user, 'regler' => false]);
+        if (!$panier) {
+            $panier = new Panier();
+            $panier->setPersonnel($user);
+            $panier->setDateCreation(new \DateTime());
+            $panier->setRegler(false);
+            $em->persist($panier);
+        }
+
+        $dejaPresent = false;
+        foreach ($panier->getMettres() as $mettre) {
+            if ($mettre->getAnimaux() && $mettre->getAnimaux()->getId() === $animalEntity->getId()) {
+                $dejaPresent = true;
+                break;
+            }
+        }
+        if (!$dejaPresent) {
+            $mettre = new Mettre();
+            $mettre->setPanier($panier);
+            $mettre->setAnimaux($animalEntity);
+            $em->persist($mettre);
+        }
+
+        $em->flush();
 
         return $this->redirectToRoute('app_parrainage');
     }
 
     #[Route('/parrainage/panier', name: 'app_parrainage_panier')]
-    public function panier(Request $request): Response
+    public function panier(PanierRepository $panierRepository): Response
     {
-        $session = $request->getSession();
-        $cart = $session->get('parrainage_cart', []);
-        $animals = [
-            'lama' => ['nom' => 'Lama', 'emoji' => '🦙'],
-            'zebre' => ['nom' => 'Zèbre', 'emoji' => '🦓'],
-            'lion' => ['nom' => 'Lion', 'emoji' => '🦁'],
-            'girafe' => ['nom' => 'Girafe', 'emoji' => '🦒'],
-            'elephant' => ['nom' => 'Éléphant', 'emoji' => '🐘'],
-        ];
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        $panier = $panierRepository->findOneBy(['personnel' => $user, 'regler' => false]);
+        $cart = [];
+        $animals = [];
+        if ($panier) {
+            foreach ($panier->getMettres() as $mettre) {
+                $animal = $mettre->getAnimaux();
+                if ($animal) {
+                    $cart[] = $animal->getId();
+                    $animals[$animal->getId()] = $animal;
+                }
+            }
+        }
+
+        $contenirAteliers = [];
+        if ($panier) {
+            foreach ($panier->getContenirs() as $contenir) {
+                if ($contenir->getAteliers()) {
+                    $contenirAteliers[] = $contenir;
+                }
+            }
+        }
 
         return $this->render('parrainage/panier.html.twig', [
             'cart' => $cart,
             'animals' => $animals,
+            'contenirAteliers' => $contenirAteliers,
         ]);
+
     }
 
     #[Route('/parrainage/panier/retirer/{animal}', name: 'app_parrainage_panier_retirer')]
-    public function retirerDuPanier(string $animal, Request $request): Response
+    public function retirerDuPanier(
+        int                    $animal,
+        PanierRepository       $panierRepository,
+        EntityManagerInterface $em
+    ): Response
     {
-        $session = $request->getSession();
-        $cart = $session->get('parrainage_cart', []);
-        if (($key = array_search($animal, $cart)) !== false) {
-            unset($cart[$key]);
-            $cart = array_values($cart); // Réindexe le tableau
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->redirectToRoute('app_login');
         }
-        $session->set('parrainage_cart', $cart);
+
+        $panier = $panierRepository->findOneBy(['personnel' => $user, 'regler' => false]);
+        if ($panier) {
+            foreach ($panier->getMettres() as $mettre) {
+                if ($mettre->getAnimaux() && $mettre->getAnimaux()->getId() === $animal) {
+                    $em->remove($mettre);
+                }
+            }
+            $em->flush();
+        }
 
         return $this->redirectToRoute('app_parrainage_panier');
     }

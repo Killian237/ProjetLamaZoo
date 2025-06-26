@@ -14,18 +14,62 @@
                     {% for animal in cart %}
                         <div class="col-md-6 mb-3">
                             <div class="card shadow">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ animals[animal].emoji }} {{ animals[animal].nom }}</h5>
-                                    <label for="montant_{{ animal }}" class="form-label">Montant à donner (€)</label>
-                                    <input type="number" min="1" step="1" class="form-control"
-                                           name="montant[{{ animal }}]" id="montant_{{ animal }}" required>
-                                    <a href="{{ path('app_parrainage_panier_retirer', {'animal': animal}) }}"
-                                       class="btn btn-outline-danger btn-sm mt-2">Retirer</a>
+                                <div class="card-body d-flex align-items-center">
+                                    <img src="{{ asset('picture/' ~ animals[animal].image) }}"
+                                         alt="{{ animals[animal].nom }}"
+                                         style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px; margin-right: 16px;">
+                                    <div>
+                                        <h5 class="card-title mb-1">{{ animals[animal].nom }}</h5>
+                                        <label for="montant_{{ animal }}" class="form-label">Montant à donner
+                                            (€)</label>
+                                        <input type="number" min="1" step="1" class="form-control"
+                                               name="montant[{{ animal }}]" id="montant_{{ animal }}" required>
+                                        <a href="{{ path('app_parrainage_panier_retirer', {'animal': animal}) }}"
+                                           class="btn btn-outline-danger btn-sm mt-2">Retirer</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     {% endfor %}
                 </div>
+                {% if contenirAteliers is defined and contenirAteliers|length > 0 %}
+                    <h2 class="mt-4">Vos ateliers</h2>
+                    <div class="row">
+                        {% for contenir in contenirAteliers %}
+                            {% set atelier = contenir.getAteliers %}
+                            <div class="col-md-6 mb-3">
+                                <div class="card shadow">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ atelier.nom }}</h5>
+                                        <p>{{ atelier.description|nl2br }}</p>
+                                        <p>Créneau : {{ atelier.HeureDebut|date('H:i') }}
+                                            - {{ atelier.HeureFin|date('H:i') }}</p>
+                                        <p>Heure
+                                            choisie : {{ contenir.getHeureChoisit ? contenir.getHeureChoisit|date('H:i') : 'Non définie' }}</p>
+                                        <a href="{{ path('app_ateliers_panier_retirer', {'atelier': atelier.id}) }}"
+                                           class="btn btn-outline-danger btn-sm mt-2">Retirer</a>
+                                        <form method="post"
+                                              action="{{ path('app_ateliers_panier_modifier_heure', {'atelier': atelier.id}) }}">
+                                            <select name="heure" required>
+                                                {% set debut = atelier.HeureDebut|date('H') %}
+                                                {% set fin = atelier.HeureFin|date('H') %}
+                                                {% for h in debut..(fin-1) %}
+                                                    <option value="{{ h }}:00"
+                                                            {% if contenir.getHeureChoisit and contenir.getHeureChoisit|date('H:i') == (h ~ ':00') %}selected{% endif %}>
+                                                        {{ '%02d'|format(h) }}:00
+                                                    </option>
+                                                {% endfor %}
+                                            </select>
+                                            <button type="submit" class="btn btn-sm btn-outline-primary">Changer
+                                                l'heure
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
                 <div class="text-center mt-4">
                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                         <button type="submit" class="btn btn-success btn-lg">Valider mon parrainage</button>
