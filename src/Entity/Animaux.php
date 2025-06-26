@@ -40,6 +40,9 @@ class Animaux
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $image = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $typeAnimal = null;
+
     public function __construct()
     {
         $this->parrainers = new ArrayCollection();
@@ -155,6 +158,18 @@ class Animaux
     public function setImage(?string $image): static
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getTypeAnimal(): ?string
+    {
+        return $this->typeAnimal;
+    }
+
+    public function setTypeAnimal(string $typeAnimal): static
+    {
+        $this->typeAnimal = $typeAnimal;
 
         return $this;
     }
