@@ -51,29 +51,32 @@ class Personnel implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $tel = null;
 
-    /**
-     * @var Collection<int, Service>
-     */
-    #[ORM\OneToMany(targetEntity: Service::class, mappedBy: 'personnel')]
-    private Collection $services;
+    #[ORM\Column(nullable: true)]
+    private ?int $parrainage = null;
 
     /**
-     * @var Collection<int, HistoHabilitation>
+     * @var Collection<int, Parrainer>
      */
-    #[ORM\OneToMany(targetEntity: HistoHabilitation::class, mappedBy: 'personnel')]
-    private Collection $histoHabilitations;
+    #[ORM\OneToMany(targetEntity: Parrainer::class, mappedBy: 'personnel')]
+    private Collection $parrainers;
 
     /**
-     * @var Collection<int, EstHabilite>
+     * @var Collection<int, Panier>
      */
-    #[ORM\OneToMany(targetEntity: EstHabilite::class, mappedBy: 'personnel')]
-    private Collection $estHabilites;
+    #[ORM\OneToMany(targetEntity: Panier::class, mappedBy: 'personnel')]
+    private Collection $paniers;
+
+    /**
+     * @var Collection<int, Participer>
+     */
+    #[ORM\OneToMany(targetEntity: Participer::class, mappedBy: 'personnel')]
+    private Collection $participers;
 
     public function __construct()
     {
-        $this->services = new ArrayCollection();
-        $this->histoHabilitations = new ArrayCollection();
-        $this->estHabilites = new ArrayCollection();
+        $this->parrainers = new ArrayCollection();
+        $this->paniers = new ArrayCollection();
+        $this->participers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -209,30 +212,42 @@ class Personnel implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Service>
-     */
-    public function getServices(): Collection
+    public function getParrainage(): ?int
     {
-        return $this->services;
+        return $this->parrainage;
     }
 
-    public function addService(Service $service): static
+    public function setParrainage(?int $parrainage): static
     {
-        if (!$this->services->contains($service)) {
-            $this->services->add($service);
-            $service->setPersonnel($this);
+        $this->parrainage = $parrainage;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Parrainer>
+     */
+    public function getParrainers(): Collection
+    {
+        return $this->parrainers;
+    }
+
+    public function addParrainer(Parrainer $parrainer): static
+    {
+        if (!$this->parrainers->contains($parrainer)) {
+            $this->parrainers->add($parrainer);
+            $parrainer->setPersonnel($this);
         }
 
         return $this;
     }
 
-    public function removeService(Service $service): static
+    public function removeParrainer(Parrainer $parrainer): static
     {
-        if ($this->services->removeElement($service)) {
+        if ($this->parrainers->removeElement($parrainer)) {
             // set the owning side to null (unless already changed)
-            if ($service->getPersonnel() === $this) {
-                $service->setPersonnel(null);
+            if ($parrainer->getPersonnel() === $this) {
+                $parrainer->setPersonnel(null);
             }
         }
 
@@ -240,29 +255,29 @@ class Personnel implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, HistoHabilitation>
+     * @return Collection<int, Panier>
      */
-    public function getHistoHabilitations(): Collection
+    public function getPaniers(): Collection
     {
-        return $this->histoHabilitations;
+        return $this->paniers;
     }
 
-    public function addHistoHabilitation(HistoHabilitation $histoHabilitation): static
+    public function addPanier(Panier $panier): static
     {
-        if (!$this->histoHabilitations->contains($histoHabilitation)) {
-            $this->histoHabilitations->add($histoHabilitation);
-            $histoHabilitation->setPersonnel($this);
+        if (!$this->paniers->contains($panier)) {
+            $this->paniers->add($panier);
+            $panier->setPersonnel($this);
         }
 
         return $this;
     }
 
-    public function removeHistoHabilitation(HistoHabilitation $histoHabilitation): static
+    public function removePanier(Panier $panier): static
     {
-        if ($this->histoHabilitations->removeElement($histoHabilitation)) {
+        if ($this->paniers->removeElement($panier)) {
             // set the owning side to null (unless already changed)
-            if ($histoHabilitation->getPersonnel() === $this) {
-                $histoHabilitation->setPersonnel(null);
+            if ($panier->getPersonnel() === $this) {
+                $panier->setPersonnel(null);
             }
         }
 
@@ -270,29 +285,29 @@ class Personnel implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, EstHabilite>
+     * @return Collection<int, Participer>
      */
-    public function getEstHabilites(): Collection
+    public function getParticipers(): Collection
     {
-        return $this->estHabilites;
+        return $this->participers;
     }
 
-    public function addEstHabilite(EstHabilite $estHabilite): static
+    public function addParticiper(Participer $participer): static
     {
-        if (!$this->estHabilites->contains($estHabilite)) {
-            $this->estHabilites->add($estHabilite);
-            $estHabilite->setPersonnel($this);
+        if (!$this->participers->contains($participer)) {
+            $this->participers->add($participer);
+            $participer->setPersonnel($this);
         }
 
         return $this;
     }
 
-    public function removeEstHabilite(EstHabilite $estHabilite): static
+    public function removeParticiper(Participer $participer): static
     {
-        if ($this->estHabilites->removeElement($estHabilite)) {
+        if ($this->participers->removeElement($participer)) {
             // set the owning side to null (unless already changed)
-            if ($estHabilite->getPersonnel() === $this) {
-                $estHabilite->setPersonnel(null);
+            if ($participer->getPersonnel() === $this) {
+                $participer->setPersonnel(null);
             }
         }
 

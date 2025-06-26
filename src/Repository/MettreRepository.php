@@ -2,39 +2,39 @@
 
 namespace App\Repository;
 
-use App\Entity\Application;
+use App\Entity\Mettre;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Application>
+ * @extends ServiceEntityRepository<Mettre>
  */
-class ApplicationRepository extends ServiceEntityRepository
+class MettreRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Application::class);
+        parent::__construct($registry, Mettre::class);
     }
 
     //    /**
-    //     * @return Application[] Returns an array of Application objects
+    //     * @return Mettre[] Returns an array of Mettre objects
     //     */
     //    public function findByExampleField($value): array
     //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
+    //        return $this->createQueryBuilder('m')
+    //            ->andWhere('m.exampleField = :val')
     //            ->setParameter('val', $value)
-    //            ->orderBy('a.id', 'ASC')
+    //            ->orderBy('m.id', 'ASC')
     //            ->setMaxResults(10)
     //            ->getQuery()
     //            ->getResult()
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Application
+    //    public function findOneBySomeField($value): ?Mettre
     //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
+    //        return $this->createQueryBuilder('m')
+    //            ->andWhere('m.exampleField = :val')
     //            ->setParameter('val', $value)
     //            ->getQuery()
     //            ->getOneOrNullResult()
