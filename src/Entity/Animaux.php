@@ -37,6 +37,9 @@ class Animaux
     #[ORM\OneToMany(targetEntity: Mettre::class, mappedBy: 'animaux')]
     private Collection $mettres;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $image = null;
+
     public function __construct()
     {
         $this->parrainers = new ArrayCollection();
@@ -140,6 +143,18 @@ class Animaux
                 $mettre->setAnimaux(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): static
+    {
+        $this->image = $image;
 
         return $this;
     }
