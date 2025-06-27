@@ -1,15 +1,18 @@
 {% extends 'base.html.twig' %}
+
 {% block title %}{{ parent() }}Mon panier de parrainage{% endblock %}
+
 {% block body %}
     <div class="container mt-5">
         <h1 class="text-center text-primary mb-4">🛒 Mon panier de parrainage</h1>
-        {% if cart|length == 0 %}
+
+        {% if cart|length == 0 and (contenirAteliers is not defined or contenirAteliers|length == 0) %}
             <div class="alert alert-info text-center">Votre panier est vide.</div>
             <div class="text-center mt-3">
                 <a href="{{ path('app_parrainage') }}" class="btn btn-outline-primary">Retour au parrainage</a>
             </div>
         {% else %}
-            <form method="post" action="#">
+            <form method="post" action="{{ path('app_parrainage_valider') }}">
                 <div class="row">
                     {% for animal in cart %}
                         <div class="col-md-6 mb-3">
@@ -32,54 +35,53 @@
                         </div>
                     {% endfor %}
                 </div>
-                {% if contenirAteliers is defined and contenirAteliers|length > 0 %}
-                    <h2 class="mt-4">Vos ateliers</h2>
-                    <div class="row">
-                        {% for contenir in contenirAteliers %}
-                            {% set atelier = contenir.getAteliers %}
-                            <div class="col-md-6 mb-3">
-                                <div class="card shadow">
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{ atelier.nom }}</h5>
-                                        <p>{{ atelier.description|nl2br }}</p>
-                                        <p>Créneau : {{ atelier.HeureDebut|date('H:i') }}
-                                            - {{ atelier.HeureFin|date('H:i') }}</p>
-                                        <p>Heure
-                                            choisie : {{ contenir.getHeureChoisit ? contenir.getHeureChoisit|date('H:i') : 'Non définie' }}</p>
-                                        <a href="{{ path('app_ateliers_panier_retirer', {'atelier': atelier.id}) }}"
-                                           class="btn btn-outline-danger btn-sm mt-2">Retirer</a>
-                                        <form method="post"
-                                              action="{{ path('app_ateliers_panier_modifier_heure', {'atelier': atelier.id}) }}">
-                                            <select name="heure" required>
-                                                {% set debut = atelier.HeureDebut|date('H') %}
-                                                {% set fin = atelier.HeureFin|date('H') %}
-                                                {% for h in debut..(fin-1) %}
-                                                    <option value="{{ h }}:00"
-                                                            {% if contenir.getHeureChoisit and contenir.getHeureChoisit|date('H:i') == (h ~ ':00') %}selected{% endif %}>
-                                                        {{ '%02d'|format(h) }}:00
-                                                    </option>
-                                                {% endfor %}
-                                            </select>
-                                            <button type="submit" class="btn btn-sm btn-outline-primary">Changer
-                                                l'heure
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                {% endif %}
                 <div class="text-center mt-4">
                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                         <button type="submit" class="btn btn-success btn-lg">Valider mon parrainage</button>
                     {% else %}
-                        <a href="{{ path('app_login') }}" class="btn btn-success btn-lg">
-                            Se connecter pour valider
-                        </a>
+                        <a href="{{ path('app_login') }}" class="btn btn-success btn-lg">Se connecter pour valider</a>
                     {% endif %}
                 </div>
             </form>
+
+            {% if contenirAteliers is defined and contenirAteliers|length > 0 %}
+                <h2 class="mt-4">Vos ateliers</h2>
+                <div class="row">
+                    {% for contenir in contenirAteliers %}
+                        {% set atelier = contenir.getAteliers %}
+                        <div class="col-md-6 mb-3">
+                            <div class="card shadow">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ atelier.nom }}</h5>
+                                    <p>{{ atelier.description|nl2br }}</p>
+                                    <p>Créneau : {{ atelier.HeureDebut|date('H:i') }}
+                                        - {{ atelier.HeureFin|date('H:i') }}</p>
+                                    <p>Heure choisie
+                                        : {{ contenir.getHeureChoisit ? contenir.getHeureChoisit|date('H:i') : 'Non définie' }}</p>
+                                    <a href="{{ path('app_ateliers_panier_retirer', {'atelier': atelier.id}) }}"
+                                       class="btn btn-outline-danger btn-sm mt-2">Retirer</a>
+                                    <form method="post"
+                                          action="{{ path('app_ateliers_panier_modifier_heure', {'atelier': atelier.id}) }}">
+                                        <select name="heure" required>
+                                            {% set debut = atelier.HeureDebut|date('H') %}
+                                            {% set fin = atelier.HeureFin|date('H') %}
+                                            {% for h in debut..(fin-1) %}
+                                                <option value="{{ h }}:00"
+                                                        {% if contenir.getHeureChoisit and contenir.getHeureChoisit|date('H:i') == (h ~ ':00') %}selected{% endif %}>
+                                                    {{ '%02d'|format(h) }}:00
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                        <button type="submit" class="btn btn-sm btn-outline-primary">Changer l'heure
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
             <div class="text-center mt-3">
                 <a href="{{ path('app_parrainage') }}" class="btn btn-outline-primary">Retour au parrainage</a>
             </div>
