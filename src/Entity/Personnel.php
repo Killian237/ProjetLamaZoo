@@ -54,6 +54,12 @@ class Personnel implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?int $parrainage = null;
 
+    #[ORM\Column(type: Types::INTEGER, options: ['default' => 0])]
+    private ?int $loginAttempts = 0;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $blockedUntil = null;
+
     /**
      * @var Collection<int, Parrainer>
      */
@@ -96,31 +102,19 @@ class Personnel implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
     public function getUserIdentifier(): string
     {
         return (string) $this->email;
     }
 
-    /**
-     * @see UserInterface
-     */
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
     }
 
-    /**
-     * @param list<string> $roles
-     */
     public function setRoles(array $roles): static
     {
         $this->roles = $roles;
@@ -128,9 +122,6 @@ class Personnel implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @see PasswordAuthenticatedUserInterface
-     */
     public function getPassword(): ?string
     {
         return $this->password;
@@ -143,13 +134,9 @@ class Personnel implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @see UserInterface
-     */
     public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
     }
 
     public function getNom(): ?string
@@ -224,6 +211,30 @@ class Personnel implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getLoginAttempts(): ?int
+    {
+        return $this->loginAttempts;
+    }
+
+    public function setLoginAttempts(int $loginAttempts): static
+    {
+        $this->loginAttempts = $loginAttempts;
+
+        return $this;
+    }
+
+    public function getBlockedUntil(): ?\DateTimeInterface
+    {
+        return $this->blockedUntil;
+    }
+
+    public function setBlockedUntil(?\DateTimeInterface $blockedUntil): static
+    {
+        $this->blockedUntil = $blockedUntil;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, Parrainer>
      */
@@ -245,7 +256,6 @@ class Personnel implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeParrainer(Parrainer $parrainer): static
     {
         if ($this->parrainers->removeElement($parrainer)) {
-            // set the owning side to null (unless already changed)
             if ($parrainer->getPersonnel() === $this) {
                 $parrainer->setPersonnel(null);
             }
@@ -275,7 +285,6 @@ class Personnel implements UserInterface, PasswordAuthenticatedUserInterface
     public function removePanier(Panier $panier): static
     {
         if ($this->paniers->removeElement($panier)) {
-            // set the owning side to null (unless already changed)
             if ($panier->getPersonnel() === $this) {
                 $panier->setPersonnel(null);
             }
@@ -305,7 +314,6 @@ class Personnel implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeParticiper(Participer $participer): static
     {
         if ($this->participers->removeElement($participer)) {
-            // set the owning side to null (unless already changed)
             if ($participer->getPersonnel() === $this) {
                 $participer->setPersonnel(null);
             }
