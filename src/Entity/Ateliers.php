@@ -43,6 +43,9 @@ class Ateliers
     #[ORM\OneToMany(targetEntity: Participer::class, mappedBy: 'atelier')]
     private Collection $participers;
 
+    #[ORM\Column(type: Types::TIME_MUTABLE)]
+    private ?\DateTime $dure = null;
+
     public function __construct()
     {
         $this->contenirs = new ArrayCollection();
@@ -170,6 +173,18 @@ class Ateliers
                 $participer->setAtelier(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDure(): ?\DateTime
+    {
+        return $this->dure;
+    }
+
+    public function setDure(\DateTime $dure): static
+    {
+        $this->dure = $dure;
 
         return $this;
     }

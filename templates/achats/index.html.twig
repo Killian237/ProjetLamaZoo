@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}Mes achats{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1 class="text-center text-primary mb-4">🧾 Mes achats</h1>
+
+        <h2 class="mt-4">Mes ateliers réservés</h2>
+        {% if participations|length == 0 %}
+            <div class="alert alert-info">Aucune participation à un atelier.</div>
+        {% else %}
+            <div class="row">
+                {% for participation in participations %}
+                    <div class="col-md-6 mb-3">
+                        <div class="card shadow">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ participation.getAtelier.nom }}</h5>
+                                <p>{{ participation.getAtelier.description|nl2br }}</p>
+                                <p>
+                                    Heure : {{ participation.getHeureDebut|date('H:i') }}
+                                    - {{ participation.getHeureFin|date('H:i') }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <h2 class="mt-4">Mes animaux parrainés</h2>
+        {% if animauxParraines|length == 0 %}
+            <div class="alert alert-info">Aucun animal parrainé.</div>
+        {% else %}
+            <div class="row">
+                {% for animal in animauxParraines %}
+                    <div class="col-md-6 mb-3">
+                        <div class="card shadow">
+                            <div class="card-body d-flex align-items-center">
+                                {% if animal.image %}
+                                    <img src="{{ asset('picture/' ~ animal.image) }}"
+                                         alt="{{ animal.nom }}"
+                                         style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px; margin-right: 16px;">
+                                {% endif %}
+                                <div>
+                                    <h5 class="card-title mb-1">{{ animal.nom }}</h5>
+                                    <p>Type : {{ animal.typeAnimal }}</p>
+                                    <p>Montant total parrainé : {{ animal.parrainage }} €</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

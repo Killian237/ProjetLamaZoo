@@ -13,6 +13,13 @@
             </div>
         {% else %}
             <form method="post" action="{{ path('app_parrainage_valider') }}">
+                <div class="text-center mt-4">
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <button type="submit" class="btn btn-success btn-lg">Valider mon parrainage</button>
+                    {% else %}
+                        <a href="{{ path('app_login') }}" class="btn btn-success btn-lg">Se connecter pour valider</a>
+                    {% endif %}
+                </div>
                 <div class="row">
                     {% for animal in cart %}
                         <div class="col-md-6 mb-3">
@@ -34,13 +41,6 @@
                             </div>
                         </div>
                     {% endfor %}
-                </div>
-                <div class="text-center mt-4">
-                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                        <button type="submit" class="btn btn-success btn-lg">Valider mon parrainage</button>
-                    {% else %}
-                        <a href="{{ path('app_login') }}" class="btn btn-success btn-lg">Se connecter pour valider</a>
-                    {% endif %}
                 </div>
             </form>
 

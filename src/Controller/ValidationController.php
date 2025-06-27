@@ -31,21 +31,42 @@ class ValidationController extends AbstractController
             return $this->redirectToRoute('app_parrainage_panier');
         }
 
-        $montants = $request->request->get('montant', []);
+        $montants = $request->request->all('montant');
         $totalParrainage = 0;
 
         foreach ($panier->getMettres() as $mettre) {
             $animal = $mettre->getAnimaux();
             if ($animal && isset($montants[$animal->getId()])) {
                 $montant = (float)$montants[$animal->getId()];
-                // Supposons que l'entité Animaux a une méthode addParrainageMontant
-                $animal->setParrainageMontant($animal->getParrainageMontant() + $montant);
+                $animal->setParrainage($animal->getParrainage() + $montant);
                 $totalParrainage += $montant;
             }
         }
 
-        // Supposons que l'entité User a une méthode setParrainageTotal
-        $user->setParrainageTotal($user->getParrainageTotal() + $totalParrainage);
+        foreach ($panier->getContenirs() as $contenir) {
+            $atelier = $contenir->getAteliers();
+            if ($atelier) {
+                $participation = new \App\Entity\Participer();
+                $participation->setPersonnel($user);
+                $participation->setAtelier($atelier);
+                $heureChoisie = $contenir->getHeureChoisit();
+                $participation->setHeureDebut($heureChoisie);
+                $heureChoisie = $contenir->getHeureChoisit();
+                $dure = $atelier->getDure();
+
+                if ($dure instanceof \DateTime) {
+                    $minutes = ((int)$dure->format('H')) * 60 + (int)$dure->format('i');
+                } else {
+                    $minutes = (int)$dure;
+                }
+
+                $heureFin = (clone $heureChoisie)->modify('+' . $minutes . ' minutes');
+                $participation->setHeureFin($heureFin);
+                $em->persist($participation);
+            }
+        }
+
+        $user->setParrainage($user->getParrainage() + $totalParrainage);
 
         $panier->setRegler(true);
         $em->flush();
