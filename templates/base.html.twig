@@ -17,7 +17,7 @@
     <div class="container-fluid">
         <a class="navbar-brand" href="{{ path('app_accueil') }}">Navbar</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs target="#navbarColor03"
-                aria-controls="navbarColor03" aria-expanded="false" aria label="Toggle navigation">
+                aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarColor03">
@@ -65,6 +65,14 @@
                             <i class="bibi-x-circle-fill"></i>
                         </a>
                     </li>
+                    {% if not app.user.totpSecret %}
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               href="{{ path('app_enable_2fa') }}"> Activer la double authentification
+                                <i class="bibi-x-circle-fill"></i>
+                            </a>
+                        </li>
+                    {% endif %}
                 {% endif %}
             </ul>
         </div>

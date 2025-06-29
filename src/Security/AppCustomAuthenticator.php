@@ -81,10 +81,7 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
             $this->entityManager->flush();
         }
 
-        if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
-            return new RedirectResponse($targetPath);
-        }
-
+        // Redirige TOUJOURS vers l'accueil après connexion
         return new RedirectResponse($this->urlGenerator->generate('app_accueil'));
     }
 

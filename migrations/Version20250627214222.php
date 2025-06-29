@@ -19,15 +19,15 @@ final class Version20250627214222 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql(<<<'SQL'
-            ALTER TABLE ateliers ADD dure TIME NOT NULL
-        SQL);
+        // La colonne 'dure' existe déjà, on ne l'ajoute plus
+        // $this->addSql(<<<'SQL'
+        //     ALTER TABLE ateliers ADD dure TIME NOT NULL
+        // SQL);
     }
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
+        // Cette ligne supprimera la colonne si tu fais un rollback
         $this->addSql(<<<'SQL'
             ALTER TABLE ateliers DROP dure
         SQL);

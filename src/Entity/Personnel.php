@@ -12,7 +12,6 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: PersonnelRepository::class)]
-#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class Personnel implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -59,6 +58,10 @@ class Personnel implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $blockedUntil = null;
+
+    // --- Ajout de la clé secrète 2FA ---
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $totpSecret = null;
 
     /**
      * @var Collection<int, Parrainer>
@@ -231,6 +234,19 @@ class Personnel implements UserInterface, PasswordAuthenticatedUserInterface
     public function setBlockedUntil(?\DateTimeInterface $blockedUntil): static
     {
         $this->blockedUntil = $blockedUntil;
+
+        return $this;
+    }
+
+    // --- Getter et setter pour totpSecret ---
+    public function getTotpSecret(): ?string
+    {
+        return $this->totpSecret;
+    }
+
+    public function setTotpSecret(?string $totpSecret): static
+    {
+        $this->totpSecret = $totpSecret;
 
         return $this;
     }

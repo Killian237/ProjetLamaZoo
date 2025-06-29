@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Activer la double authentification</h1>
+    <p>Scanne ce QR code avec Google Authenticator :</p>
+    <div id="qrcode"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+        new QRCode(document.getElementById("qrcode"), "{{ qrCodeUrl|e('js') }}");
+    </script>
+    <form method="post" action="#">
+        <input type="text" name="code" placeholder="Code à 6 chiffres" required>
+        <button type="submit">Vérifier</button>
+    </form>
+{% endblock %}
