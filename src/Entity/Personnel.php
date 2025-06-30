@@ -59,7 +59,7 @@ class Personnel implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $blockedUntil = null;
 
-    // --- Ajout de la clé secrète 2FA ---
+    // --- Secret TOTP pour la double authentification ---
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $totpSecret = null;
 
@@ -101,7 +101,6 @@ class Personnel implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmail(string $email): static
     {
         $this->email = $email;
-
         return $this;
     }
 
@@ -114,14 +113,12 @@ class Personnel implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $roles = $this->roles;
         $roles[] = 'ROLE_USER';
-
         return array_unique($roles);
     }
 
     public function setRoles(array $roles): static
     {
         $this->roles = $roles;
-
         return $this;
     }
 
@@ -133,13 +130,12 @@ class Personnel implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPassword(string $password): static
     {
         $this->password = $password;
-
         return $this;
     }
 
     public function eraseCredentials(): void
     {
-        // If you store any temporary, sensitive data on the user, clear it here
+        // Si vous stockez des données temporaires sensibles, effacez-les ici
     }
 
     public function getNom(): ?string
@@ -150,7 +146,6 @@ class Personnel implements UserInterface, PasswordAuthenticatedUserInterface
     public function setNom(string $nom): static
     {
         $this->nom = $nom;
-
         return $this;
     }
 
@@ -162,7 +157,6 @@ class Personnel implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPrenom(string $prenom): static
     {
         $this->prenom = $prenom;
-
         return $this;
     }
 
@@ -174,7 +168,6 @@ class Personnel implements UserInterface, PasswordAuthenticatedUserInterface
     public function setDateNaissance(\DateTime $dateNaissance): static
     {
         $this->dateNaissance = $dateNaissance;
-
         return $this;
     }
 
@@ -186,7 +179,6 @@ class Personnel implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAdresse(string $adresse): static
     {
         $this->adresse = $adresse;
-
         return $this;
     }
 
@@ -198,7 +190,6 @@ class Personnel implements UserInterface, PasswordAuthenticatedUserInterface
     public function setTel(string $tel): static
     {
         $this->tel = $tel;
-
         return $this;
     }
 
@@ -210,7 +201,6 @@ class Personnel implements UserInterface, PasswordAuthenticatedUserInterface
     public function setParrainage(?int $parrainage): static
     {
         $this->parrainage = $parrainage;
-
         return $this;
     }
 
@@ -222,7 +212,6 @@ class Personnel implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLoginAttempts(int $loginAttempts): static
     {
         $this->loginAttempts = $loginAttempts;
-
         return $this;
     }
 
@@ -234,7 +223,6 @@ class Personnel implements UserInterface, PasswordAuthenticatedUserInterface
     public function setBlockedUntil(?\DateTimeInterface $blockedUntil): static
     {
         $this->blockedUntil = $blockedUntil;
-
         return $this;
     }
 
@@ -247,7 +235,6 @@ class Personnel implements UserInterface, PasswordAuthenticatedUserInterface
     public function setTotpSecret(?string $totpSecret): static
     {
         $this->totpSecret = $totpSecret;
-
         return $this;
     }
 
@@ -265,7 +252,6 @@ class Personnel implements UserInterface, PasswordAuthenticatedUserInterface
             $this->parrainers->add($parrainer);
             $parrainer->setPersonnel($this);
         }
-
         return $this;
     }
 
@@ -276,7 +262,6 @@ class Personnel implements UserInterface, PasswordAuthenticatedUserInterface
                 $parrainer->setPersonnel(null);
             }
         }
-
         return $this;
     }
 
@@ -294,7 +279,6 @@ class Personnel implements UserInterface, PasswordAuthenticatedUserInterface
             $this->paniers->add($panier);
             $panier->setPersonnel($this);
         }
-
         return $this;
     }
 
@@ -305,7 +289,6 @@ class Personnel implements UserInterface, PasswordAuthenticatedUserInterface
                 $panier->setPersonnel(null);
             }
         }
-
         return $this;
     }
 
@@ -323,7 +306,6 @@ class Personnel implements UserInterface, PasswordAuthenticatedUserInterface
             $this->participers->add($participer);
             $participer->setPersonnel($this);
         }
-
         return $this;
     }
 
@@ -334,7 +316,6 @@ class Personnel implements UserInterface, PasswordAuthenticatedUserInterface
                 $participer->setPersonnel(null);
             }
         }
-
         return $this;
     }
 }

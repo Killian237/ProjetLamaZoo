@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<h1 class="text-center text-primary mt-4 pt-4 display-1 fw-bold">
+			Vérification 2FA
+		</h1>
+
+	{% if error is defined and error %}
+		<div class="alert alert-danger">{{ error }}</div>
+	{% endif %}
+
+	<form method="post">
+		<div class="form-group">
+			<input type="text" name="code" class="form-control" placeholder="Code à 6 chiffres" required>
+		</div>
+		<button type="submit" class="btn btn-primary">Vérifier</button>
+	</form>
+{% endblock %}

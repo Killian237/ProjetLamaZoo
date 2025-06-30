@@ -46,10 +46,15 @@ class TwoFactorController extends AbstractController
             }
         }
 
-        // ----- ÉTAPE GET : Génération du secret et du QR code -----
-        $totp = TOTP::generate();
-        $secret = $totp->getSecret();
-        $request->getSession()->set('2fa_secret', $secret);
+        // ----- ÉTAPE GET : Génération du secret et du QR code (une seule fois) -----
+        $secret = $request->getSession()->get('2fa_secret');
+        if (!$secret) {
+            $totp = TOTP::generate();
+            $secret = $totp->getSecret();
+            $request->getSession()->set('2fa_secret', $secret);
+        } else {
+            $totp = TOTP::create($secret);
+        }
 
         $totp->setLabel($user->getEmail());
         $totp->setIssuer('ProjetLamaZoo');
@@ -60,9 +65,5 @@ class TwoFactorController extends AbstractController
         ]);
     }
 
-    #[Route('/2fa_check', name: 'app_2fa_check', methods: ['GET'])]
-    public function twoFaCheck(): Response
-    {
-        return $this->render('security/2fa_check.html.twig');
-    }
+    
 }
