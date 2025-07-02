@@ -28,6 +28,9 @@ security:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/private, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/manual-2fa-check, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/enable-2fa, roles: IS_AUTHENTICATED_FULLY }
+
+
 
 
 

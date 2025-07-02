@@ -59,7 +59,6 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         // Si l'utilisateur a activé la 2FA, on stocke juste l'ID en session
         if (method_exists($user, 'getTotpSecret') && $user->getTotpSecret()) {
             $request->getSession()->set('2fa_user_id', $user->getId());
-            // NE PAS rediriger ici, laisser le subscriber gérer la redirection
             return null; // Laisse la redirection par défaut, le subscriber prendra le relais
         }
 

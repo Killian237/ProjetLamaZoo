@@ -27,7 +27,7 @@ class Manual2FAController extends AbstractController
         if ($request->isMethod('POST')) {
             $code = $request->request->get('code');
             
-            // À ADAPTER : récupération du secret depuis votre entité
+            //récupération du secret depuis votre entité
             $secret = $user->getTotpSecret(); 
             
             // Vérification du code

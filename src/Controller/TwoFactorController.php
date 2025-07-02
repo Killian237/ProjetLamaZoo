@@ -39,14 +39,14 @@ class TwoFactorController extends AbstractController
 
                 $request->getSession()->remove('2fa_secret');
                 $this->addFlash('success', 'Double authentification activée !');
-                // Redirige vers la page de ton choix 
+                // Redirige vers la page d'acceuil'
                 return $this->redirectToRoute('app_accueil');
             } else {
                 $this->addFlash('error', 'Code invalide.');
             }
         }
 
-        // ----- ÉTAPE GET : Génération du secret et du QR code (une seule fois) -----
+        // ----- ÉTAPE GET : Génération du secret et du QR code -----
         $secret = $request->getSession()->get('2fa_secret');
         if (!$secret) {
             $totp = TOTP::generate();
