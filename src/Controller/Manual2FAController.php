@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class Manual2FAController extends AbstractController
 {
-    #[Route('/manual-2fa-check', name: 'manual_2fa_check', methods: ['GET', 'POST'])]
+    #[Route('/manual-2fa-check', name: 'app_manual_2fa_check', methods: ['GET', 'POST'])]
     public function check2fa(Request $request): Response
     {
         // Récupère l'utilisateur connecté
